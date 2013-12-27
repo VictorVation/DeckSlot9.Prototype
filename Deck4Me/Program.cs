@@ -19,6 +19,8 @@ namespace Deck4Me
             Form1 deckForm1 = new Form1();
             Application.Run(deckForm1);
 
+            //This doesn't currently work
+            //Trying to add the functionality of double clicking a .deck loads the deck into the application
             foreach (string filePath in args)
             {
                 deckForm1.loadDeckWithFilePath(filePath);

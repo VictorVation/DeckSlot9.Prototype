@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        .auto-style1
+        {
+            width: 147px;
+            height: 390px;
+            margin-left: 34px;
+            padding-right: 0px;
+        }
+    </style>
+</head>
+<body>
+
+    <p>
+        DeckSlot 9 - Version 1.0</p>
+    <h2>Table of Contents</h2>
+    <ol>
+        <li><a href="#a">What is DeckSlot9</a></li>
+        <li><a href="#b">Adding a deck to the DeckSlot9 application</a></li>
+        <li><a href="#c">Loading deck into Hearthstone</a></li>
+        <li><a href="#d">Creating a deck</a></li>
+        <li><a href="#e">Removing a deck from the DeckSlot9 application</a></li>
+        <li><a href="#f">Downloading a deck</a></li>
+        <li><a href="#g">Viewing card list</a></li>
+        <li><a href="#h">Uninstalling DeckSlot9</a></li>
+    </ol>
+    <p>
+        &nbsp;</p>
+    <a name="a">
+    <h3><strong><em>1. What is DeckSlot9</em></strong></h3>
+    <p style="margin-left: 29px">
+        DeckSlot9 is a third party application with no affliation to Blizzard Entertainment which allows the user to import decks created outside of Hearthstone.&nbsp; The intended use of this application is to assist with players who juggle around with more than 9 decks quickly and easily swap benched decks into Hearthstone.&nbsp; Please read this document to learn how to properly and safely use this program.</p>
+    <p style="margin-left: 29px">
+        Find more information about Hearthstone <a href="http://us.battle.net/hearthstone/en/">here</a> .</p>
+    <p style="margin-left: 29px">
+        &nbsp;</p>
+    <a name="b">
+    <h3>2. Importing a new deck into DeckSlot9</h3>
+    <p style="margin-left: 40px">
+        Method 1: Select <strong>File-&gt;Import </strong>browse your computer for a .Deck file and press<strong> Okay.<br />
+        </strong>Method 2: Find a .Deck file on your computer&#39;s file explorer and <strong>drag</strong> the file over into DeckSlot9.</p>
+    <p style="margin-left: 40px">
+        &nbsp;</p>
+    <a name="c">
+    <h3>3. Loading deck into Hearthstone</h3>
+    <ul>
+        <li>Open <strong>Hearthstone</strong></li>
+        <li>Navigate to <strong>My Collection</strong></li>
+        <li>Make sure deck slot 9 is available as shown below.</li>
+        <p>
+            &nbsp;</p>
+    </ul>
+    <p>
+        <img alt="How you should look!" class="auto-style1" src="file:///C:/Users/Nicholas%20P.%20Schiavi/Desktop/12-26-2013%2011-07-09%20PM.png" /></p>
+    <ul>
+        <li>&nbsp;Make sure any excess windows are <strong>minimized</strong> just in case something goes wrong with the automation.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In the case where something is going wrong you can <strong>stop</strong> the automation by hitting the <strong>Escape</strong> key or <strong>pause/resume</strong> automation by hitting the <strong>Space</strong> key.</li>
+        <li>&nbsp;<strong>Double click</strong> the deck you would like to load and sit back and watch.</li>
+    </ul>
+    <p>
+        Let me know if something does go wrong with your configuration by emailing me at <a href="mailto:zsrulesz@gmail.com">zsrulesz@gmail.com</a> with your in <strong>game resolution</strong>, <strong>speed</strong>, and <strong>.Deck</strong> . If possible include a screenshot of your <strong>My Collection</strong> screen.</p>
+    <p>
+        &nbsp;</p>
+    <a name="d">
+    <h3>4. Creating a deck</h3>
+    <p style="margin-left: 40px">
+        Currently there is no easy way of creating a .Deck .&nbsp; I am working on integrations with various Deck building applications. 
+    <p style="margin-left: 40px">
+        If you would like to create a deck the hard way, this is how:</p>
+    <ul>
+        <li>Open your favorite text editor and create a new document.</li>
+        <li>Paste in the following code:</li>
+    </ul>
+    <p style="margin-left: 40px">
+        &lt;?xml version&quot;1.0&quot; encoding=&quot;ISO-8859-1 &quot;?&gt;<br />
+        &lt;deck&gt;
+        <br />
+&nbsp;&nbsp;&nbsp; &lt;deckName&gt; YOURDECKNAMEHERE &lt;/deckName&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;class&gt;VALIDCLASSNAME&lt;/class&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;card&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;cardName&gt;VALIDCARDNAME&lt;/cardName&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;quantity&gt;VALIDNUMBER&lt;/quantity&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/card&gt;<br />
+        &lt;&lt;/deck&gt;</p>
+    <p style="margin-left: 40px">
+        <strong>YOURDECKNAMEHERE</strong> can be any text, just try not to make it extremely long since I am not currently formatting to handle that.<br />
+        <strong>VALIDCLASSNAME </strong>should be<strong> Warrior | Shaman | Mage </strong>... ect<br />
+        <strong>VALIDCARDNAME </strong>should be an exact match of the text of a card found in game.<br />
+       should be either 1 or 2.<br />
+    </p>
+    <ul>
+        <li>Add more of the card block as desired.</li>
+        <li><strong>Save</strong> the document and <strong>close</strong>.</li>
+        <li><strong>Rename</strong> the file with the extension <strong>.Deck</strong> for clarity sake but this step is not required.</li>
+    </ul>
+    <p>
+        &nbsp;</p>
+    <a name="e">
+    <h3>5. Removing a deck from the DeckSlot9 application</h3>
+    <ol>
+        <li><strong>Select</strong> or<strong> drag select </strong>the decks you wish to delete within DeckSlot9&#39;s main panel.</li>
+        <li>Hit the <strong>delete</strong> key.</li>
+        <li><strong>Closing</strong> the application will save your settings.</li>
+    </ol>
+    <a name="f">
+    <h3>6. Downloading a deck</h3>
+    <p style="margin-left: 40px">
+        Not available at this time.&nbsp; Developers of deck building applications please email me at ing applications please email me at <a href="mailto:zsrulesz@gmail.com">zsrulesz@gmail.com</a> for integration details.</p>
+    <a name="g">
+    <h3>7. Viewing card list</h3>
+    <p style="margin-left: 40px">
+        Hover over a deck to see the cardlist.&nbsp; Further functionality may be added in the future.</p>
+    <a name="h">
+    <h3>8. Uninstalling DeckSlot9</h3>
+    <p style="margin-left: 40px">
+        Please use the standard uninstallation method provided by your OS.&nbsp; The application should be found under <strong>Programs and Features .</strong></p>
+    <p style="margin-left: 40px">
+        &nbsp;</p>
+    <p>
+        &nbsp;</p>
+
+</body>
+</html>
