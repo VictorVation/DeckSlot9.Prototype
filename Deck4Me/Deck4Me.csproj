@@ -22,10 +22,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>DeckSlot9</ProductName>
+    <PublisherName>Twelve47Studios</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -59,6 +63,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>cardback.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Esent.Collections">
@@ -120,6 +127,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cardback.ico" />
     <Content Include="DeckImages\DruidDeck.bmp" />
     <Content Include="DeckImages\HunterDeck.bmp" />
     <Content Include="DeckImages\MageDeck.bmp" />
@@ -149,6 +157,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".Deck">
+      <Visible>False</Visible>
+      <Description>DeckSlot9 Hearthstone deck list</Description>
+      <Progid>deckfile</Progid>
+      <DefaultIcon>cardback.ico</DefaultIcon>
+    </FileAssociation>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

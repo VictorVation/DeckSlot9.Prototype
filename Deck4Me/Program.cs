@@ -12,11 +12,17 @@ namespace Deck4Me
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 deckForm1 = new Form1();
+            Application.Run(deckForm1);
+
+            foreach (string filePath in args)
+            {
+                deckForm1.loadDeckWithFilePath(filePath);
+            }
 
         }
     }

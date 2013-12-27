@@ -29,7 +29,7 @@ namespace Deck4Me
         ArrayList deckList = new ArrayList();
 
         List<String> filePaths = new List<string>();
-        
+
 
         double speed = 1.5;
 
@@ -120,7 +120,7 @@ namespace Deck4Me
         }
 
 
-      
+
 
 
         private void loadDeckSlot9(Deck deckToLoad)
@@ -285,7 +285,7 @@ namespace Deck4Me
             fd.ShowDialog();
 
             loadDeckWithFilePath(fd.FileName.ToString());
-            
+
         }
 
         private void readXML(String xmlFile, Deck newDeck)
@@ -447,8 +447,17 @@ namespace Deck4Me
             }
         }
 
-        private void loadDeckWithFilePath(string filePath)
+        public void loadDeckWithFilePath(string filePath)
         {
+
+            foreach (string fps in filePaths)
+            {
+                if (filePath.Equals(fps))
+                {
+                    //file path already exists
+                    return;
+                }
+            }
 
             ListViewItem item = new ListViewItem(Path.GetFileName(filePath));
             item.Tag = filePath;
@@ -540,6 +549,7 @@ namespace Deck4Me
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.DeckPathList.Clear();
             foreach (string curFP in filePaths)
             {
                 Properties.Settings.Default.DeckPathList.Add(curFP);
@@ -547,6 +557,6 @@ namespace Deck4Me
             Properties.Settings.Default.Save();
         }
 
-       
+
     }
 }
