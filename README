@@ -1,0 +1,11 @@
+Email zsrulesz@gmail.com with any questions
+
+Known bugs
+
+-Changing the location or deleting .Deck files before deleting them in the app will cause a crash when relaunching app
+-Image in help document needs to be linked correctly
+
+Missing features
+-Deck loading functionality only tested on 1400x900 and 1400x1050. 
+  Need to add an aspect ratio conversion to my position percentages.
+-Filtering/Sorting/Grouping Deck list
