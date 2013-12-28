@@ -165,7 +165,9 @@ namespace Deck4Me
         {
             if (Properties.Settings.Default.DeckPathList == null)
             {
+                toolStripStatusLabel1.Text = "No decks found.";
                 Properties.Settings.Default.DeckPathList = new StringCollection();
+                isLoading = false;
                 return;
             }
 
@@ -173,6 +175,7 @@ namespace Deck4Me
             {
                 loadDeckWithFilePath(curFP);
             }
+            toolStripStatusLabel1.Text = "" + Properties.Settings.Default.DeckPathList.Count + " deck loaded."; 
 
             isLoading = false;
 
@@ -889,6 +892,7 @@ namespace Deck4Me
                 Properties.Settings.Default.DeckPathList.Add(curFP);
             }
             Properties.Settings.Default.Save();
+            toolStripStatusLabel1.Text = "" + Properties.Settings.Default.DeckPathList.Count + " deck saved."; 
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1073,6 +1077,16 @@ namespace Deck4Me
                 statusIcon.Image = statusImages.Images[1];
                 return false;
             }
+        }
+
+        private void toolStripStatusLabel2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripStatusLabel3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
