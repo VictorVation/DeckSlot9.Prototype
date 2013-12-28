@@ -63,6 +63,16 @@ namespace Deck4Me.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap cardback {
+            get {
+                object obj = ResourceManager.GetObject("cardback", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap chooseButton {
             get {
                 object obj = ResourceManager.GetObject("chooseButton", resourceCulture);
@@ -178,6 +188,36 @@ namespace Deck4Me.Properties {
         public static System.Drawing.Bitmap ShamanDeck {
             get {
                 object obj = ResourceManager.GetObject("ShamanDeck", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap statusGray {
+            get {
+                object obj = ResourceManager.GetObject("statusGray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap statusGreen {
+            get {
+                object obj = ResourceManager.GetObject("statusGreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap statusYellow {
+            get {
+                object obj = ResourceManager.GetObject("statusYellow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

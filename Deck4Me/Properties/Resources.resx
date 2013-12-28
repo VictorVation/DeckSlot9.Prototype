@@ -154,4 +154,16 @@
   <data name="DeckSlot9_Help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeckSlot9-Help.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="cardback" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cardback.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="statusGray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\statusGray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="statusGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\statusGreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="statusYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\statusYellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

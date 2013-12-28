@@ -22,6 +22,8 @@ using Deck4Me.Keyboard;
 using HtmlAgilityPack;
 using System.Reflection;
 using System.Threading;
+using Microsoft.VisualBasic;
+using System.Drawing.Drawing2D;
 
 namespace Deck4Me
 {
@@ -30,6 +32,7 @@ namespace Deck4Me
     {
         ImageList deckImages = new ImageList();
         ImageList btnImages = new ImageList();
+        ImageList statusImages = new ImageList();
         ArrayList deckList = new ArrayList();
 
         List<String> filePaths = new List<string>();
@@ -76,6 +79,9 @@ namespace Deck4Me
         Thread mainExecution;
         EventWaitHandle pauseControl = new EventWaitHandle(false, EventResetMode.AutoReset);
 
+        Deck tempDeck;
+
+        Boolean isLoading = true;
 
         public Form1()
         {
@@ -83,6 +89,14 @@ namespace Deck4Me
 
             DeckView.AllowDrop = true;
             KListener.KeyDown += new RawKeyEventHandler(KListener_KeyDown);
+
+            statusImages.ColorDepth = ColorDepth.Depth16Bit;
+            statusImages.ImageSize = new Size(24, 24);
+            statusImages.Images.Add(Properties.Resources.statusGray);
+            statusImages.Images.Add(Properties.Resources.statusYellow);
+            statusImages.Images.Add(Properties.Resources.statusGreen);
+
+            statusIcon.Image = statusImages.Images[0];
 
             btnImages.ColorDepth = ColorDepth.Depth32Bit;
             btnImages.ImageSize = new Size(158, 158);
@@ -128,13 +142,13 @@ namespace Deck4Me
                     {
                         pauseExecution = false;
                         pauseControl.Set();
-
+                        toolStripStatusLabel1.Text = "";
                     }
                     else
                     {
                         pauseExecution = true;
                         // MessageBox.Show("SPACE: Execution suspended. Press SPACE again to continue."); //too annoying
-                        
+                        toolStripStatusLabel1.Text = "Execution paused. Press SPACE to resume.";
                     }
                     break;
                 case "Escape":
@@ -159,6 +173,8 @@ namespace Deck4Me
             {
                 loadDeckWithFilePath(curFP);
             }
+
+            isLoading = false;
 
 
         }
@@ -388,9 +404,12 @@ namespace Deck4Me
             {
                 haultExecution = false;
                 pauseExecution = false;
-                MessageBox.Show("ESC: Execution haulted");
+                MessageBox.Show("ESC: Execution canceled.");
+                //toolStripStatusLabel1.Text = "Execution haulted";
                 return true;
             }
+            toolStripStatusLabel1.Text = "";
+
             return false;
         }
 
@@ -514,21 +533,38 @@ namespace Deck4Me
         private void slowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             speed = 4;
+            if (!isLoading)
+            {
+                saveData();
+            }
+            
         }
         //slow
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             speed = 2;
+            if (!isLoading)
+            {
+                saveData();
+            }
         }
         //actually normal
         private void fastToolStripMenuItem_Click(object sender, EventArgs e)
         {
             speed = 1.5;
+            if (!isLoading)
+            {
+                saveData();
+            }
         }
         //fast
         private void fastToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             speed = 1;
+            if (!isLoading)
+            {
+                saveData();
+            }
         }
 
 
@@ -545,6 +581,10 @@ namespace Deck4Me
                         {
                             filePaths.Remove(fp);
                             deckList.Remove(getDeck(fp));
+                            if (!isLoading)
+                            {
+                                saveData();
+                            }
                             break;
                         }
                     }
@@ -587,6 +627,7 @@ namespace Deck4Me
 
             Deck newDeck = new Deck();
             newDeck.fileName = Path.GetFileName(filePath);
+            newDeck.filePath = filePath;
             readXML(filePath, newDeck);
 
             Image image;
@@ -626,8 +667,43 @@ namespace Deck4Me
             }
 
             Graphics graphics = Graphics.FromImage(image);
-            Font deckNameFont = new Font("Consolas", 12, FontStyle.Bold);
-            graphics.DrawString(newDeck.name, deckNameFont, Brushes.White, 20, 45);
+
+            string trimedName = newDeck.name.ToString();
+            if (trimedName.Length > 24)
+            {
+                trimedName = trimedName.Substring(0, 24);
+            }
+
+            int fontSize = 13 + Convert.ToInt32(Math.Round((24.0 / trimedName.Length) * 2.0));
+            int height = 47 - Convert.ToInt32(Math.Round((24.0 / trimedName.Length) * 2.0));
+
+            //Old method
+            //Font deckNameFont = new Font("Consolas", fontSize , FontStyle.Bold);
+            //graphics.DrawString(trimedName, deckNameFont, Brushes.White, 20, 45);
+
+            // Create a GraphicsPath object.
+            GraphicsPath myPath = new GraphicsPath();
+
+            // Set up all the string parameters.
+            string stringText = trimedName;
+            FontFamily family = new FontFamily("Arial");
+            int fontStyle = (int)FontStyle.Bold;
+            int emSize = fontSize;
+            Point origin = new Point(16, height);
+            StringFormat format = StringFormat.GenericDefault;
+
+            // Add the string to the path.
+            myPath.AddString(stringText,
+                family,
+                fontStyle,
+                emSize,
+                origin,
+                format);
+
+            //Draw the path to the screen.
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.DrawPath(new Pen(Brushes.Black, 4), myPath);
+            graphics.FillPath(Brushes.White, myPath);
 
             deckImages.Images.Add(image);
 
@@ -637,6 +713,118 @@ namespace Deck4Me
             item.SubItems.Add(Path.GetFileName(filePath));
             DeckView.Items.Add(item);
             filePaths.Add(filePath);
+            if (!isLoading)
+            {
+                saveData();
+            }
+        }
+
+        public void loadTempDeck()
+        {
+
+            if (tempDeck == null)
+            {
+                return;
+            }
+
+            Deck newDeck = tempDeck;
+            newDeck.ExportToDotDeck();
+
+            ListViewItem item = new ListViewItem(Path.GetFileName(newDeck.filePath));
+            item.Tag = newDeck.filePath;
+
+            Image image;
+
+            switch (newDeck.deckClass)
+            {
+                case (int)Deck.deckClassTypes.Warrior:
+                    image = Properties.Resources.WarriorDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Shaman:
+                    image = Properties.Resources.ShamanDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Rogue:
+                    image = Properties.Resources.RogueDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Paladin:
+                    image = Properties.Resources.PaladinDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Hunter:
+                    image = Properties.Resources.HunterDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Druid:
+                    image = Properties.Resources.DruidDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Warlock:
+                    image = Properties.Resources.WarlockDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Mage:
+                    image = Properties.Resources.MageDeck;
+                    break;
+                case (int)Deck.deckClassTypes.Priest:
+                    image = Properties.Resources.PriestDeck;
+                    break;
+                default:
+                    image = Properties.Resources.ShamanDeck;
+                    break;
+            }
+
+            Graphics graphics = Graphics.FromImage(image);
+
+            string trimedName = newDeck.name.ToString();
+            if (trimedName.Length > 24)
+            {
+                trimedName = trimedName.Substring(0, 24);
+            }
+
+            int fontSize = 13 + Convert.ToInt32(Math.Round((24.0 / trimedName.Length) * 2.0));
+            int height = 47 - Convert.ToInt32(Math.Round((24.0 / trimedName.Length) * 2.0));
+
+            //Old method
+            //Font deckNameFont = new Font("Consolas", fontSize , FontStyle.Bold);
+            //graphics.DrawString(trimedName, deckNameFont, Brushes.White, 20, 45);
+
+            // Create a GraphicsPath object.
+            GraphicsPath myPath = new GraphicsPath();
+
+            // Set up all the string parameters.
+            string stringText = trimedName;
+            FontFamily family = new FontFamily("Arial");
+            int fontStyle = (int)FontStyle.Bold;
+            int emSize = fontSize;
+            Point origin = new Point(16, height);
+            StringFormat format = StringFormat.GenericDefault;
+
+            // Add the string to the path.
+            myPath.AddString(stringText,
+                family,
+                fontStyle,
+                emSize,
+                origin,
+                format);
+
+            //Draw the path to the screen.
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.DrawPath(new Pen(Brushes.Black, 4), myPath);
+            graphics.FillPath(Brushes.White, myPath);
+
+            deckImages.Images.Add(image);
+
+            item.ImageIndex = deckImages.Images.Count - 1;
+            item.ToolTipText = cardArrayToString(newDeck.cards);
+
+            item.SubItems.Add(Path.GetFileName(newDeck.filePath));
+            DeckView.Items.Add(item);
+            filePaths.Add(newDeck.filePath);
+            if (!isLoading)
+            {
+                saveData();
+            }
+            //Reset for more decks
+            tempDeck = null;
+            statusIcon.Image = statusImages.Images[0];
+            toolStripComboBox1.Enabled = false;
+            toolStripTextBox1.Enabled = false;
         }
 
         private string cardArrayToString(ArrayList cards)
@@ -686,6 +874,14 @@ namespace Deck4Me
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             KListener.Dispose();
+            if (!isLoading)
+            {
+                saveData();
+            }
+        }
+
+        private void saveData()
+        {
             Properties.Settings.Default.DeckPathList.Clear();
             Properties.Settings.Default.Speed = speed;
             foreach (string curFP in filePaths)
@@ -721,6 +917,162 @@ namespace Deck4Me
 
         }
 
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (Clipboard.ContainsText())
+            {
+                tempDeck = new Deck();
+                if (tempDeck.loadHearthPwnTxt(Clipboard.GetText()))
+                {
+                    statusIcon.Image = statusImages.Images[1];
+                    toolStripComboBox1.Enabled = true;
+                    toolStripTextBox1.Enabled = true;
+                }
+                else
+                {
+                    statusIcon.Image = statusImages.Images[0];
+                    toolStripComboBox1.Enabled = false;
+                    toolStripTextBox1.Enabled = false;
+                }
+            }
+            
 
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripTextBox1_Enter(object sender, EventArgs e)
+        {
+            toolStripTextBox1.Text = "";
+        }
+
+        private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tempDeck != null)
+            {
+                tempDeck.setClass(toolStripComboBox1.Text);
+                validateDeckLoad();
+            }
+        }
+
+        //Old Button
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (toolStripComboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please pick a class");
+                return;
+            }
+            else if (toolStripTextBox1.Text.Equals("Deck name") || toolStripTextBox1.Text.Equals(""))
+            {
+                MessageBox.Show("Please enter a unique deck name");
+                return;
+            }
+            else
+            {
+                if (tempDeck == null)
+                {
+                    return;
+                }
+                if (tempDeck.cards.Count == 0)
+                {
+                    MessageBox.Show("There are no cards in this deck.  Please check your clipboard and try again.");
+                    return;
+                }
+
+                tempDeck.name = toolStripTextBox1.Text;
+                loadTempDeck();
+            }
+        }
+
+        //Old Button
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (toolStripComboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please pick a class");
+                return;
+            }
+            else if (toolStripTextBox1.Text.Equals("Deck name") || toolStripTextBox1.Text.Equals(""))
+            {
+                MessageBox.Show("Please enter a unique deck name");
+                return;
+            }
+            else
+            {
+                if (tempDeck == null)
+                {
+                    return;
+                }
+                if (tempDeck.cards.Count == 0)
+                {
+                    MessageBox.Show("There are no cards in this deck.  Please check your clipboard and try again.");
+                    return;
+                }
+
+                tempDeck.name = toolStripTextBox1.Text;
+                loadTempDeck();
+            }
+        }
+
+        private void loadClipboardDeck()
+        {
+            if (toolStripComboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please pick a class");
+                return;
+            }
+            else if (toolStripTextBox1.Text.Equals("Deck name") || toolStripTextBox1.Text.Equals(""))
+            {
+                MessageBox.Show("Please enter a unique deck name");
+                return;
+            }
+            else
+            {
+                if (tempDeck == null)
+                {
+                    return;
+                }
+                if (tempDeck.cards.Count == 0)
+                {
+                    MessageBox.Show("There are no cards in this deck.  Please check your clipboard and try again.");
+                    return;
+                }
+
+                tempDeck.name = toolStripTextBox1.Text;
+                loadTempDeck();
+            }
+        }
+
+        private void toolStripTextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (validateDeckLoad() && e.KeyCode == Keys.Enter)
+            {
+                loadClipboardDeck();
+            }
+        }
+
+        private Boolean validateDeckLoad()
+        {
+            if (toolStripComboBox1.SelectedIndex > -1 && toolStripTextBox1.Text.Length > 0 && !toolStripTextBox1.Text.Equals("Deck name"))
+            {
+                statusIcon.Image = statusImages.Images[2];
+                return true;
+            }
+            else
+            {
+                statusIcon.Image = statusImages.Images[1];
+                return false;
+            }
+        }
     }
 }

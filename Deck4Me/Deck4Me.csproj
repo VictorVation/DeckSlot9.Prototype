@@ -79,9 +79,11 @@
     <Reference Include="InputSimulator">
       <HintPath>..\..\..\..\..\Downloads\InputSimulator.0.1.0.0-bin\InputSimulator.0.1.0.0-bin\Release\InputSimulator.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -91,6 +93,12 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Xml.Schema.Linq">
+      <HintPath>..\..\..\linqtoxsd.2.0.2.56002-bin\linqtoxsd.2.0.2.56002-bin\Xml.Schema.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="XOTask">
+      <HintPath>..\..\..\linqtoxsd.2.0.2.56002-bin\linqtoxsd.2.0.2.56002-bin\XOTask.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Deck.cs" />
@@ -151,6 +159,10 @@
     <Content Include="DeckImages\ShamanDeck.bmp" />
     <Content Include="DeckImages\WarlockDeck.bmp" />
     <Content Include="DeckImages\WarriorDeck.bmp" />
+    <None Include="Resources\statusGray.png" />
+    <None Include="Resources\statusYellow.png" />
+    <None Include="Resources\statusGreen.png" />
+    <None Include="Resources\cardback.png" />
     <Content Include="Resources\DeckSlot9-Help.html" />
     <None Include="Resources\EmptyButton.png" />
     <None Include="Resources\chooseButton.png" />
