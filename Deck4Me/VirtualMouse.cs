@@ -25,9 +25,9 @@ namespace MouseManipulator
         public static void LeftClick()
         {
             mouse_event(MOUSEEVENTF_LEFTDOWN, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(30);
             mouse_event(MOUSEEVENTF_LEFTUP, System.Windows.Forms.Control.MousePosition.X, System.Windows.Forms.Control.MousePosition.Y, 0, 0);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(30);
         }
 
         public static void LeftDown()

@@ -219,6 +219,18 @@ namespace Deck4Me
             return oneOfEach;
 
         }
+
+        public string getCardQuery(string crd)
+        {
+            if (crd.Trim().ToLower().Equals("slam"))
+            {
+                return "Slam survives";
+            }
+            else
+            {
+                return crd;
+            }
+        }
     }
 
     

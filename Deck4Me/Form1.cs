@@ -343,7 +343,7 @@ namespace Deck4Me
                     return;
                 }
 
-                string[] cardNames = (string[])deckToLoad.cards.ToArray(typeof(string));
+                string[] cardNames = (string[])deckToLoad.getDistinct().ToArray(typeof(string));
 
                 System.Threading.Thread.Sleep(Convert.ToInt32(500 * speed));
 
@@ -365,12 +365,17 @@ namespace Deck4Me
                     VirtualMouse.LeftClick();
                     //Clipboard.SetText("Leeroy");
                     SendKeys.SendWait("^{A}");
-                    SendKeys.SendWait(curCard);
+                    SendKeys.SendWait(deckToLoad.getCardQuery(curCard));
                     SendKeys.SendWait("{Enter}");
 
-                    System.Threading.Thread.Sleep(Convert.ToInt32(400 * speed));
-                    System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectCardH), curY + Convert.ToInt32(curH * selectCardW));
-                    VirtualMouse.LeftClick();
+                    for (int i = 0; i < deckToLoad.getCardQuantity(curCard); i++)
+                    {
+                        System.Threading.Thread.Sleep(Convert.ToInt32(400 * speed));
+                        System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectCardH), curY + Convert.ToInt32(curH * selectCardW));
+                        VirtualMouse.LeftClick();
+                    }
+
+
                 }
 
 
