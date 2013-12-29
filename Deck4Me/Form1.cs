@@ -30,6 +30,15 @@ namespace Deck4Me
 
     public partial class Form1 : Form
     {
+        public enum aspectRatio
+        {
+            _4x3 = 0,
+            _25x16 = 1,
+            _16x10 = 2,
+            _16x9 = 3,
+            x
+        };
+
         ImageList deckImages = new ImageList();
         ImageList btnImages = new ImageList();
         ImageList statusImages = new ImageList();
@@ -83,9 +92,15 @@ namespace Deck4Me
 
         Boolean isLoading = true;
 
+        string lastSelectedDeck = null;
+
         public Form1()
         {
             InitializeComponent();
+
+            GlobalMouseHandler gmh = new GlobalMouseHandler();
+            gmh.TheMouseMoved += new MouseMovedEvent(gmh_TheMouseMoved);
+            Application.AddMessageFilter(gmh);
 
             DeckView.AllowDrop = true;
             KListener.KeyDown += new RawKeyEventHandler(KListener_KeyDown);
@@ -130,6 +145,38 @@ namespace Deck4Me
             speed = Properties.Settings.Default.Speed;
             LoadDecks();
         }
+        void gmh_TheMouseMoved()
+        {
+            
+
+        }
+
+        public delegate void MouseMovedEvent();
+
+        public class GlobalMouseHandler : IMessageFilter
+        {
+            private const int WM_MOUSEMOVE = 0x0200;
+
+            public event MouseMovedEvent TheMouseMoved;
+
+            #region IMessageFilter Members
+
+            public bool PreFilterMessage(ref Message m)
+            {
+                if (m.Msg == WM_MOUSEMOVE)
+                {
+                    if (TheMouseMoved != null)
+                    {
+                        TheMouseMoved();
+                    }
+                }
+                // Always allow message to continue to the next filter control
+                return false;
+            }
+
+            #endregion
+        }
+
 
 
         void KListener_KeyDown(object sender, RawKeyEventArgs args)
@@ -155,6 +202,64 @@ namespace Deck4Me
                     haultExecution = true;
                     pauseExecution = false; //in case of pause then hault
                     break;
+                case "F2":
+                    if (lastSelectedDeck == null)
+                    {
+                        return;
+                    }
+                    Deck selectedDeck = getDeck(lastSelectedDeck);
+
+                    if (selectedDeck != null)
+                    {
+                        mainExecution = new Thread(() => loadDeckSlot9(selectedDeck));
+                        mainExecution.Start();
+                    }
+                    break;
+                case "F5":
+                    setSpeed("very slow");
+                    break;
+                case "F6":
+                    setSpeed("slow");
+                    break;
+                case "F7":
+                    setSpeed("normal");
+                    break;
+                case "F8":
+                    setSpeed("fast");
+                    break;
+
+                case "LeftShift":
+                    //used for debugging screen percentage positions
+                    Point cur_pos = Cursor.Position;
+                    System.Diagnostics.Process[] hsProcesses = System.Diagnostics.Process.GetProcessesByName("Hearthstone");
+
+                    if (hsProcesses.Length > 0)
+                    {
+
+                        //SetFocus(new HandleRef(null, hsProcesses[0].Handle));
+                        SetForegroundWindow(hsProcesses[0].MainWindowHandle);
+                        ShowWindow(hsProcesses[0].MainWindowHandle, SW_RESTORE);
+                        //hsProcesses[0].MainWindowHandle.win;
+
+                        //SetForegroundWindow(handle);
+
+
+
+                        Rectangle rect = new Rectangle();
+                        GetWindowRect(hsProcesses[0].MainWindowHandle, out rect);
+
+                        curX = rect.X;
+                        curY = rect.Y;
+                        curW = (rect.Width - rect.X);
+                        curH = (rect.Height - rect.Y);
+
+                        double curXPercentage = Math.Round((((double)cur_pos.X - (double)curX) / (double)curW), 6);
+                        double curYPercentage = Math.Round((((double)cur_pos.Y - (double)curY) / (double)curH), 6);
+
+                        System.Console.WriteLine(curXPercentage+" , "+curYPercentage);
+                        toolStripStatusLabel1.Text = (curXPercentage + " , " + curYPercentage);
+                    }
+                    break;
 
             }
         }
@@ -175,7 +280,7 @@ namespace Deck4Me
             {
                 loadDeckWithFilePath(curFP);
             }
-            toolStripStatusLabel1.Text = "" + Properties.Settings.Default.DeckPathList.Count + " deck loaded."; 
+            toolStripStatusLabel1.Text = "" + Properties.Settings.Default.DeckPathList.Count + " deck(s) loaded."; 
 
             isLoading = false;
 
@@ -220,9 +325,58 @@ namespace Deck4Me
                 curW = (rect.Width - rect.X);
                 curH = (rect.Height - rect.Y);
 
-                //Bottom deck screen % H : 90.92 W : 80.6
-                const double bottomDeckH = .8442;
-                const double bottomDeckW = .8415;
+
+                aspectRatio currentAspectRatio = aspectRatio.x;
+                double interpretedRatio = ((double)curW / (double)curH);
+                Boolean isWideScreen = false;
+                
+                
+                if(interpretedRatio <= 1.4)
+                {
+                    currentAspectRatio = aspectRatio._4x3;
+                }
+                else if (interpretedRatio > 1.4 && interpretedRatio < 1.58)
+                {
+                    currentAspectRatio = aspectRatio._25x16;
+                }
+                else if (interpretedRatio > 1.58 && interpretedRatio < 1.66)
+                {
+                    currentAspectRatio = aspectRatio._16x10;
+                }
+                else if (interpretedRatio > 1.66)
+                {
+                    currentAspectRatio = aspectRatio._16x9;
+                    isWideScreen = true;
+
+                }
+
+                //New Deck
+                double bottomDeckW = .8415;
+                double bottomDeckH = .8442;
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        bottomDeckW = 0.866252;
+                        bottomDeckH = 0.843117;
+                        break;
+                    case aspectRatio._25x16:
+                        bottomDeckW = 0.801993;
+                        bottomDeckH = 0.84144;
+                        break;
+                    case aspectRatio._16x10:
+                        bottomDeckW = 0.788849;
+                        bottomDeckH = 0.844358;
+                        break;
+                    case aspectRatio._16x9:
+                        bottomDeckW = 0.765439;
+                        bottomDeckH = 0.846304;
+                        break;
+                    case aspectRatio.x:
+                        bottomDeckW = .8415;
+                        bottomDeckH = .8442;
+                        break;
+                }
+                
                 //VirtualMouse.MoveTo(curX + Convert.ToInt32(curW * bottomDeckW), curY + Convert.ToInt32(curW * bottomDeckH));
                 //VirtualMouse.MoveTo(10000, 600);
 
@@ -251,38 +405,245 @@ namespace Deck4Me
                     case (int)Deck.deckClassTypes.Warrior:
                         classH = .1778;
                         classW = .28377;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.160187;
+                                classW = 0.282389;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.216065;
+                                classW = 0.282101;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.227758;
+                                classW = 0.284047;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.24533;
+                                classW = 0.28556;
+                                break;
+                            case aspectRatio.x:
+                                classH = .1778;
+                                classW = .28377;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Shaman:
                         classH = .33428;
                         classW = .2915;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.325039;
+                                classW = 0.282389;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.353674;
+                                classW = 0.282101;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.360617;
+                                classW = 0.284047;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.365504;
+                                classW = 0.28556;
+                                break;
+                            case aspectRatio.x:
+                                classH = .33428;
+                                classW = .2915;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Rogue:
                         classH = .49289;
                         classW = .2915;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.489114;
+                                classW = 0.282389;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.491905;
+                                classW = 0.282101;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.491103;
+                                classW = 0.284047;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.492528;
+                                classW = 0.28556;
+                                break;
+                            case aspectRatio.x:
+                                classH = .49289;
+                                classW = .2915;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Paladin:
                         classH = .1778;
                         classW = .4956;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.160187;
+                                classW = 0.491903;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.216065;
+                                classW = 0.4893;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.227758;
+                                classW = 0.492218;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.24533;
+                                classW = 0.489224;
+                                break;
+                            case aspectRatio.x:
+                                classH = .1778;
+                                classW = .4956;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Hunter:
                         classH = .33428;
                         classW = .4956;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.325039;
+                                classW = 0.491903;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.353674;
+                                classW = 0.4893;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.360617;
+                                classW = 0.492218;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.365504;
+                                classW = 0.489224;
+                                break;
+                            case aspectRatio.x:
+                                classH = .33428;
+                                classW = .4956;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Druid:
                         classH = .49289;
                         classW = .4956;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.489114;
+                                classW = 0.491903;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.491905;
+                                classW = 0.4893;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.491103;
+                                classW = 0.492218;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.492528;
+                                classW = 0.489224;
+                                break;
+                            case aspectRatio.x:
+                                classH = .49289;
+                                classW = .4956;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Warlock:
                         classH = .1778;
                         classW = .70456;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.160187;
+                                classW = 0.703441;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.216065;
+                                classW = 0.701362;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.227758;
+                                classW = 0.702335;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.24533;
+                                classW = 0.701509;
+                                break;
+                            case aspectRatio.x:
+                                classH = .1778;
+                                classW = .70456;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Mage:
                         classH = .33428;
                         classW = .70456;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.325039;
+                                classW = 0.703441;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.353674;
+                                classW = 0.701362;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.360617;
+                                classW = 0.702335;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.365504;
+                                classW = 0.701509;
+                                break;
+                            case aspectRatio.x:
+                                classH = .33428;
+                                classW = .70456;
+                                break;
+                        }
                         break;
                     case (int)Deck.deckClassTypes.Priest:
                         classH = .49289;
                         classW = .70456;
+                        switch (currentAspectRatio)
+                        {
+                            case aspectRatio._4x3:
+                                classH = 0.489114;
+                                classW = 0.703441;
+                                break;
+                            case aspectRatio._25x16:
+                                classH = 0.491905;
+                                classW = 0.701362;
+                                break;
+                            case aspectRatio._16x10:
+                                classH = 0.491103;
+                                classW = 0.702335;
+                                break;
+                            case aspectRatio._16x9:
+                                classH = 0.492528;
+                                classW = 0.701509;
+                                break;
+                            case aspectRatio.x:
+                                classH = .49289;
+                                classW = .70456;
+                                break;
+                        }
                         break;
                     default:
                         classH = .33428;
@@ -316,8 +677,31 @@ namespace Deck4Me
                 }
 
                 //Confirm class
-                const double confirmClassH = .7930;
-                const double confirmClassW = .8362;
+                double confirmClassH = .7930;
+                double confirmClassW = .8362;
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        confirmClassH = 0.811042;
+                        confirmClassW = 0.826923;
+                        break;
+                    case aspectRatio._25x16:
+                        confirmClassH = 0.760274;
+                        confirmClassW = 0.826848;
+                        break;
+                    case aspectRatio._16x10:
+                        confirmClassH = 0.744365;
+                        confirmClassW = 0.827821;
+                        break;
+                    case aspectRatio._16x9:
+                        confirmClassH = 0.731631;
+                        confirmClassW = 0.828664;
+                        break;
+                    case aspectRatio.x:
+                        confirmClassH = .7930;
+                        confirmClassW = .8362;
+                        break;
+                }
 
                 System.Threading.Thread.Sleep(Convert.ToInt32(300 * speed));
                 System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * confirmClassH), curY + Convert.ToInt32(curH * confirmClassW));
@@ -326,12 +710,60 @@ namespace Deck4Me
 
 
                 //Select search
-                const double searchH = .4914;
-                const double searchW = .9131;
+                double searchH = .4914;
+                double searchW = .9131;
+
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        searchH = 0.493779;
+                        searchW = 0.91498;
+                        break;
+                    case aspectRatio._25x16:
+                        searchH = 0.496441;
+                        searchW = 0.916342;
+                        break;
+                    case aspectRatio._16x10:
+                        searchH = 0.49051;
+                        searchW = 0.914397;
+                        break;
+                    case aspectRatio._16x9:
+                        searchH = 0.496264;
+                        searchW = 0.913793;
+                        break;
+                    case aspectRatio.x:
+                        searchH = .4914;
+                        searchW = .9131;
+                        break;
+                }
+
 
                 //Select card
-                const double selectCardH = .1422;
-                const double selectCardW = .3311;
+                double selectCardH = .1422;
+                double selectCardW = .3311;
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        selectCardH = 0.120529;
+                        selectCardW = 0.3583;
+                        break;
+                    case aspectRatio._25x16:
+                        selectCardH = 0.197509;
+                        selectCardW = 0.357004;
+                        break;
+                    case aspectRatio._16x10:
+                        selectCardH = 0.198102;
+                        selectCardW = 0.356031;
+                        break;
+                    case aspectRatio._16x9:
+                        selectCardH = 0.22481;
+                        selectCardW = 0.354086;
+                        break;
+                    case aspectRatio.x:
+                        selectCardH = .1422;
+                        selectCardW = .3311;
+                        break;
+                }
 
 
                 if (pauseExecution)
@@ -370,7 +802,7 @@ namespace Deck4Me
 
                     for (int i = 0; i < deckToLoad.getCardQuantity(curCard); i++)
                     {
-                        System.Threading.Thread.Sleep(Convert.ToInt32(400 * speed));
+                        System.Threading.Thread.Sleep(Convert.ToInt32(100 * speed));
                         System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectCardH), curY + Convert.ToInt32(curH * selectCardW));
                         VirtualMouse.LeftClick();
                     }
@@ -390,8 +822,32 @@ namespace Deck4Me
                 }
 
                 //Select deck name
-                const double selectDeckNameH = .8008;
-                const double selectDeckNameW = .098;
+                double selectDeckNameH = .8008;
+                double selectDeckNameW = .098;
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        selectDeckNameH = 0.866252;
+                        selectDeckNameW = 0.091093;
+                        break;
+                    case aspectRatio._25x16:
+                        selectDeckNameH = 0.804483;
+                        selectDeckNameW = 0.09144;
+                        break;
+                    case aspectRatio._16x10:
+                        selectDeckNameH = 0.789442;
+                        selectDeckNameW = 0.090467;
+                        break;
+                    case aspectRatio._16x9:
+                        selectDeckNameH = 0.767064;
+                        selectDeckNameW = 0.089494;
+                        break;
+                    case aspectRatio.x:
+                        selectDeckNameH = .8008;
+                        selectDeckNameW = .098;
+                        break;
+                }
+
 
                 System.Threading.Thread.Sleep(Convert.ToInt32(300 * speed));
                 System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectDeckNameH), curY + Convert.ToInt32(curH * selectDeckNameW));
@@ -516,6 +972,7 @@ namespace Deck4Me
                 LoadBtn.BackColor = System.Drawing.Color.Transparent;
                 LoadBtn.FlatStyle = FlatStyle.Flat;
                 LoadBtn.FlatAppearance.BorderSize = 0;
+                lastSelectedDeck = null;
                 return;
             }
             ListViewItem selectedDeck = DeckView.SelectedItems[0];
@@ -526,6 +983,7 @@ namespace Deck4Me
                 LoadBtn.BackColor = System.Drawing.Color.Transparent;
                 LoadBtn.FlatStyle = FlatStyle.Flat;
                 LoadBtn.FlatAppearance.BorderSize = 0;
+                lastSelectedDeck = selectedDeck.Text;
             }
 
 
@@ -541,42 +999,63 @@ namespace Deck4Me
 
             loadDeckWithFilePath(fd.FileName.ToString());
         }
+
+        private void setSpeed(string spd)
+        {
+            switch (spd)
+            {
+                case "very slow":
+                    speed = 4;
+                    if (!isLoading)
+                    {
+                        saveData();
+                    }
+                    break;
+                 case "slow":
+                    speed = 2;
+                    if (!isLoading)
+                    {
+                        saveData();
+                    }
+                    break;
+                case "normal":
+                    speed = 1.5;
+                    if (!isLoading)
+                    {
+                        saveData();
+                    }
+                    break;
+                case "fast":
+                    speed = 1;
+                    if (!isLoading)
+                    {
+                        saveData();
+                    }
+                    break;
+
+            }
+        }
+
         //very slow
         private void slowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            speed = 4;
-            if (!isLoading)
-            {
-                saveData();
-            }
+            setSpeed("very slow");
             
         }
         //slow
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            speed = 2;
-            if (!isLoading)
-            {
-                saveData();
-            }
+            setSpeed("slow");
         }
         //actually normal
         private void fastToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            speed = 1.5;
-            if (!isLoading)
-            {
-                saveData();
-            }
+            setSpeed("normal");
         }
         //fast
         private void fastToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            speed = 1;
-            if (!isLoading)
-            {
-                saveData();
-            }
+            setSpeed("fast");
         }
 
 
