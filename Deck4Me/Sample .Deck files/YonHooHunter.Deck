@@ -1,0 +1,84 @@
+<deck>
+  <deckName>Yong Hoo</deckName>
+  <class>Hunter</class>
+  <card>
+    <cardName>Arcane Shot</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Flare</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Tracking</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Explosive Trap</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Freezing Trap</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Misdirect</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Snipe</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Animal Companion</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Deadly Shot</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Eaglehorn Bown</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Kill Command</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Kill Krush</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Secret Keeper</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Ironbeak Owl</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Wild Pyromancer</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Abomination</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Gadgetzan Auctioneer</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Sylvanas Windrunner</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Argent Commander</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

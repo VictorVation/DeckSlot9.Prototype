@@ -1,0 +1,72 @@
+<deck>
+  <deckName>Giant OTK</deckName>
+  <class>Warrior</class>
+  <card>
+    <cardName>Fiery War Axe</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Cleave</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Slam</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Bloodmage Thalnos</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Loot Hoarder</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Nat Pagle</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Youthful Brewmaster</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Shield Block</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Acolyte of Pain</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Warsong Commander</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Ancient Brewmaster</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Arathi Weaponsmith</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Azure Drake</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sylvanas Windrunner</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Mountain Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Molten Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

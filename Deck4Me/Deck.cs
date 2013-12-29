@@ -176,6 +176,7 @@ namespace Deck4Me
             if (!errors)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.InitialDirectory = Directory.GetParent(Application.StartupPath).Parent.FullName + @"\Sample .Deck files\";
                 saveFileDialog1.Filter = "deckFile|*.Deck";
                 saveFileDialog1.Title = "Save a Deck";
                 saveFileDialog1.ShowDialog();

@@ -1,0 +1,80 @@
+<deck>
+  <deckName>Strifecro Cenarius</deckName>
+  <class>Druid</class>
+  <card>
+    <cardName>Innervate</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Claw</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Wrath</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Bloodmage Thalnos</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Loot Hoarder</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Wild Pyromancer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Earthen Ring Farseer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Harvest Golem</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Swipe</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Defender of Argus</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Keeper of the Grove</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Starfall</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Druid of the Claw</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sylvanas Windrunner</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>The Black Knight</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Ancient of Lore</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Baron Geddon</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Cenarius</cardName>
+    <quantity>1</quantity>
+  </card>
+</deck>

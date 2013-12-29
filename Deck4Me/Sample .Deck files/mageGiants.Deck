@@ -1,0 +1,72 @@
+<deck>
+  <deckName>Mage Giants</deckName>
+  <class>Mage</class>
+  <card>
+    <cardName>Cone of Cold</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Ice Block</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Flamestrike</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Frost Nova</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Molten Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Frostbolt</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Mountain Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Blizzard</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Alexstrasza</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Loot Hoarder</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Doomsayer</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Arcane Intellect</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Pyroblast</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Fireball</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Bloodmage Thalnos</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Ice Barrier</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

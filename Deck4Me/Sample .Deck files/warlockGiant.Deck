@@ -1,0 +1,64 @@
+<deck>
+  <deckName>Giant Warlock</deckName>
+  <class>Warlock</class>
+  <card>
+    <cardName>Flame Imp</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Molten Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Power Overwhelming</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Blood Imp</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Mountain Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>War Golem</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sense Demons</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Voidwalker</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Twilight Drake</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sunfury Protector</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Defender of Argus</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Siphon Soul</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sea Giant</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Shadow Bolt</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Shadowflame</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

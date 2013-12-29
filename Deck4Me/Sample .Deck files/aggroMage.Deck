@@ -1,0 +1,72 @@
+<deck>
+  <deckName>Aggro Mage</deckName>
+  <class>Mage</class>
+  <card>
+    <cardName>Argent Squire</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Mana Wyrm</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Frostbolt</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Faerie Dragon</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Knife Juggler</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Kobold Geomancer</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Ice Block</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Harvest Golem</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Shattered Sun Cleric</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Fireball</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Dark Iron Dwarf</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Defender of Argus</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Leeroy Jenkins</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Sylvanas Windrunner</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Argent Commander</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Pyroblast</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

@@ -1,0 +1,72 @@
+<deck>
+  <deckName>Control Priest Blizzcon</deckName>
+  <class>Priest</class>
+  <card>
+    <cardName> Spellbreaker</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName> Acidic Swamp Ooze</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Injured Blademaster</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Temple Enforcer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Azure Drake</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Shadow Word: Pain</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Twilight Drake</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Sunfury Protector</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName> Mind Control</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Power Word: Shield</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Shattered Sun Cleric</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Novice Engineer</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Holy Fire</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Argent Commander</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName> Defender of Argus</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName> Shadow Word: Death</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName> Holy Nova</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>

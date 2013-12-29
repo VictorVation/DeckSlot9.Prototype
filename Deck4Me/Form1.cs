@@ -227,8 +227,8 @@ namespace Deck4Me
                 case "F8":
                     setSpeed("fast");
                     break;
-
-                case "LeftShift":
+                    //Used for screen position debugging
+/*                case "LeftShift":
                     //used for debugging screen percentage positions
                     Point cur_pos = Cursor.Position;
                     System.Diagnostics.Process[] hsProcesses = System.Diagnostics.Process.GetProcessesByName("Hearthstone");
@@ -260,6 +260,7 @@ namespace Deck4Me
                         toolStripStatusLabel1.Text = (curXPercentage + " , " + curYPercentage);
                     }
                     break;
+ */
 
             }
         }
@@ -991,10 +992,10 @@ namespace Deck4Me
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
-
             OpenFileDialog fd = new OpenFileDialog();
+            fd.Filter = "deckFile|*.Deck";
+            fd.Title = "Import a Deck";
+            fd.InitialDirectory = Directory.GetParent(Application.StartupPath).Parent.FullName +@"\Sample .Deck files\" ;
             fd.ShowDialog();
 
             loadDeckWithFilePath(fd.FileName.ToString());

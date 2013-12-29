@@ -1,0 +1,68 @@
+<deck>
+  <deckName>Starter Warrior</deckName>
+  <class>Warrior</class>
+  <card>
+    <cardName>Execute</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Fiery War Axe</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Heroic Strike</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Warsong Commander</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Elven Archer</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Acidic Swamp Ooze</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Ironforge Riflemen</cardName>
+    <quantity>1</quantity>
+  </card>
+  <card>
+    <cardName>Shattered Sun Cleric</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Chillwind Yeti</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Gnomish Inventor</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Sen’jin Shieldmasta</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Frostwolf Warlord</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Gurubashi Berserker</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Stormpike Commando</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Boulderfist Ogre</cardName>
+    <quantity>2</quantity>
+  </card>
+  <card>
+    <cardName>Stormwind Champion</cardName>
+    <quantity>2</quantity>
+  </card>
+</deck>
