@@ -436,6 +436,10 @@ namespace Deck4Me
 
         private void readXML(String xmlFile, Deck newDeck)
         {
+            if (!File.Exists(xmlFile))
+            {
+                return; 
+            }
             if (xmlFile.Contains(".Deck"))
             {
                 try
@@ -620,6 +624,10 @@ namespace Deck4Me
 
         public void loadDeckWithFilePath(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                return;
+            }
 
             foreach (string fps in filePaths)
             {
@@ -716,7 +724,7 @@ namespace Deck4Me
             deckImages.Images.Add(image);
 
             item.ImageIndex = deckImages.Images.Count - 1;
-            item.ToolTipText = cardArrayToString(newDeck.cards);
+            item.ToolTipText = cardArrayToString(newDeck);
 
             item.SubItems.Add(Path.GetFileName(filePath));
             DeckView.Items.Add(item);
@@ -819,7 +827,7 @@ namespace Deck4Me
             deckImages.Images.Add(image);
 
             item.ImageIndex = deckImages.Images.Count - 1;
-            item.ToolTipText = cardArrayToString(newDeck.cards);
+            item.ToolTipText = cardArrayToString(newDeck);
 
             item.SubItems.Add(Path.GetFileName(newDeck.filePath));
             DeckView.Items.Add(item);
@@ -835,12 +843,12 @@ namespace Deck4Me
             toolStripTextBox1.Enabled = false;
         }
 
-        private string cardArrayToString(ArrayList cards)
+        private string cardArrayToString(Deck dk)
         {
             string returnStr = "";
-            foreach (string crd in cards)
+            foreach (string crd in dk.getDistinct())
             {
-                returnStr += crd + "\n";
+                returnStr += dk.getCardQuantity(crd)+"x "+crd + "\n";
             }
 
             return returnStr;
