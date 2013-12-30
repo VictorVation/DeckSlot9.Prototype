@@ -228,7 +228,7 @@ namespace Deck4Me
                     setSpeed("fast");
                     break;
                     //Used for screen position debugging
-/*                case "LeftShift":
+               /* case "LeftShift":
                     //used for debugging screen percentage positions
                     Point cur_pos = Cursor.Position;
                     System.Diagnostics.Process[] hsProcesses = System.Diagnostics.Process.GetProcessesByName("Hearthstone");
@@ -260,7 +260,7 @@ namespace Deck4Me
                         toolStripStatusLabel1.Text = (curXPercentage + " , " + curYPercentage);
                     }
                     break;
- */
+                */
 
             }
         }
@@ -766,6 +766,33 @@ namespace Deck4Me
                         break;
                 }
 
+                //Select secondary card
+                double selectSecondaryCardH = 0.283048;
+                double selectSecondaryCardW = 0.3583;
+                switch (currentAspectRatio)
+                {
+                    case aspectRatio._4x3:
+                        selectSecondaryCardH = 0.283048;
+                        selectSecondaryCardW = 0.3583;
+                        break;
+                    case aspectRatio._25x16:
+                        selectSecondaryCardH = 0.319427;
+                        selectSecondaryCardW = 0.357004;
+                        break;
+                    case aspectRatio._16x10:
+                        selectSecondaryCardH = 0.327402;
+                        selectSecondaryCardW = 0.357004;
+                        break;
+                    case aspectRatio._16x9:
+                        selectSecondaryCardH = 0.342904;
+                        selectSecondaryCardW = 0.358949;
+                        break;
+                    case aspectRatio.x:
+                        selectSecondaryCardH = 0.283048;
+                        selectSecondaryCardW = 0.3583;
+                        break;
+                }
+
 
                 if (pauseExecution)
                 {
@@ -776,11 +803,11 @@ namespace Deck4Me
                     return;
                 }
 
-                string[] cardNames = (string[])deckToLoad.getDistinct().ToArray(typeof(string));
+                Card[] cards = (Card[])deckToLoad.getDistinct().ToArray(typeof(Card));
 
                 System.Threading.Thread.Sleep(Convert.ToInt32(500 * speed));
 
-                foreach (string curCard in cardNames)
+                foreach (Card curCard in cards)
                 {
 
                     if (pauseExecution)
@@ -800,11 +827,20 @@ namespace Deck4Me
                     SendKeys.SendWait("^{A}");
                     SendKeys.SendWait(deckToLoad.getCardQuery(curCard));
                     SendKeys.SendWait("{Enter}");
-
+                    int secondariesToPick = deckToLoad.getSecondaryQuantity(curCard);
                     for (int i = 0; i < deckToLoad.getCardQuantity(curCard); i++)
                     {
                         System.Threading.Thread.Sleep(Convert.ToInt32(100 * speed));
-                        System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectCardH), curY + Convert.ToInt32(curH * selectCardW));
+                        if (secondariesToPick > 0)
+                        {
+                            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectSecondaryCardH), curY + Convert.ToInt32(curH * selectSecondaryCardW));
+                            secondariesToPick--;
+                        }
+                        else
+                        {
+                            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(curX + Convert.ToInt32(curW * selectCardH), curY + Convert.ToInt32(curH * selectCardW));
+                        }
+                        
                         VirtualMouse.LeftClick();
                     }
 
@@ -914,16 +950,33 @@ namespace Deck4Me
                     XmlNodeList nodes = doc.DocumentElement.SelectNodes("/deck/card");
 
                     int curQuantity = 0;
+                    int secondaryQty = 0;
                     string curCardName = "";
-
+                    Card newCard;
                     foreach (XmlNode node in nodes)
                     {
+                        secondaryQty = 0;
                         curCardName = node.SelectSingleNode("cardName").InnerText;
                         curQuantity = Convert.ToInt32(node.SelectSingleNode("quantity").InnerText);
-
+                        if (node.SelectSingleNode("secondaryQty") != null)
+                        {
+                            secondaryQty = Convert.ToInt32(node.SelectSingleNode("secondaryQty").InnerText);
+                        }
                         for (int i = 0; i < curQuantity; i++)
                         {
-                            newDeck.cards.Add(curCardName);
+                            newCard = new Card();
+                            newCard.name = curCardName;
+                            if (secondaryQty > 0)
+                            {
+                                newCard.isSecondaryCard = true;
+                                secondaryQty--;
+                            }
+                            else
+                            {
+                                newCard.isSecondaryCard = false;
+                            }
+                            
+                            newDeck.cards.Add(newCard);
                         }
                     }
                     deckList.Add(newDeck);
@@ -1326,9 +1379,9 @@ namespace Deck4Me
         private string cardArrayToString(Deck dk)
         {
             string returnStr = "";
-            foreach (string crd in dk.getDistinct())
+            foreach (Card crd in dk.getDistinct())
             {
-                returnStr += dk.getCardQuantity(crd)+"x "+crd + "\n";
+                returnStr += dk.getCardQuantity(crd) + "x " + crd.name + "\n"; //+" "+dk.getSecondaryQuantity(crd)
             }
 
             return returnStr;

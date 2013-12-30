@@ -71,9 +71,36 @@ namespace Deck4Me
             }
         }
 
+        bool IsDigitsOnly(string str)
+        {
+            if (str.Equals("") || str == null)
+            {
+                return false;
+            }
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        int strPositionFromLoc(int loc, string[] words)
+        {
+            int position = 0;
+            for (int i = 0; i < loc; i++)
+            {
+                position++;
+                position += words[i].Length ;
+            }
+            return position;
+        }
+
         internal Boolean loadHearthPwnTxt(string hearthpwndecklist)
         {
             int cardNumber = 0;
+            int secondaryQty = 0;
             string cardName = "";
             string crdLineTrimed = "";
             string[] lines = hearthpwndecklist.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
@@ -83,31 +110,53 @@ namespace Deck4Me
                 {
                     crdLineTrimed = crdLine.Trim();
                     string[] words = crdLineTrimed.Split(' ');
+                    int next = 0;
+                    Boolean secondaryFormat = false;
                     if (words.Length > 1)
                     {
                         cardNumber = 0;
                         cardName = "";
-                        cardNumber = Convert.ToInt32(words[0].ToLower().Replace("x",""));
+                        cardNumber = Convert.ToInt32(words[next].ToLower().Replace("x", ""));
+                        next++;
+                        if (IsDigitsOnly(words[next].ToLower().Replace("x", "")))
+                        {
+                            secondaryQty = Convert.ToInt32(words[next].ToLower().Replace("x", ""));
+                            secondaryFormat = true;
+                            next++;
 
-                        if(words[1].ToLower().Equals("x"))
+                        }
+                        if (words[next].ToLower().Equals("x"))
                         {
-                            if (crdLineTrimed.Length > words[1].Length + 1)
+                            next++;
+                            if (IsDigitsOnly(words[next].ToLower().Replace("x", "")))
                             {
-                                cardName = crdLineTrimed.Substring(words[0].Length + words[1].Length + 1);
-                            }
-                        }else
-                        {
-                            if (crdLineTrimed.Length > words[0].Length + 1)
-                            {
-                                cardName = crdLineTrimed.Substring(words[0].Length + 1);
+                                secondaryQty = Convert.ToInt32(words[next].ToLower().Replace("x", ""));
+                                secondaryFormat = true;
+                                next++;
+
                             }
                         }
 
-                        
+                        if (crdLineTrimed.Length > words[next - 1].Length + 1)
+                        {
+                            cardName = crdLineTrimed.Substring(strPositionFromLoc(next, words));
+                        }
 
+                        Card newCard;
                         for (int i = 0; i < cardNumber; i++)
                         {
-                            cards.Add(cardName);
+                            newCard = new Card();
+                            newCard.name = cardName;
+                            if (secondaryQty > 0)
+                            {
+                                newCard.isSecondaryCard = true;
+                                secondaryQty--;
+                            }
+                            else
+                            {
+                                newCard.isSecondaryCard = false;
+                            }
+                            cards.Add(newCard);
                         }
                     }
 
@@ -135,6 +184,7 @@ namespace Deck4Me
                                 <xs:sequence>
                                   <xs:element type='xs:string' name='cardName'/>
                                   <xs:element type='xs:byte' name='quantity'/>
+                                  <xs:element type='xs:byte' name='secondaryQty' minOccurs='0'/>
                                 </xs:sequence>
                               </xs:complexType>
                             </xs:element>
@@ -156,11 +206,12 @@ namespace Deck4Me
 
 
 
-            foreach (string crd in getDistinct())
+            foreach (Card crd in getDistinct())
             {
                 doc1.Root.Add(new XElement("card",
-                        new XElement("cardName", crd),
-                        new XElement("quantity", getCardQuantity(crd))));
+                        new XElement("cardName", crd.name),
+                        new XElement("quantity", getCardQuantity(crd)),
+                        new XElement("secondaryQty", getSecondaryQuantity(crd))));
             }
     
 
@@ -192,12 +243,25 @@ namespace Deck4Me
             }
 
         }
-        public int getCardQuantity(string card)
+
+        public int getSecondaryQuantity(Card card)
         {
             int qty = 0;
-            foreach (string crd in cards)
+            foreach (Card crd in cards)
             {
-                if (crd.Equals(card))
+                if (crd.name.Equals(card.name) && crd.isSecondaryCard)
+                {
+                    qty++;
+                }
+            }
+            return qty;
+        }
+        public int getCardQuantity(Card card)
+        {
+            int qty = 0;
+            foreach (Card crd in cards)
+            {
+                if (crd.name.Equals(card.name))
                 {
                     qty++;
                 }
@@ -208,10 +272,19 @@ namespace Deck4Me
         public ArrayList getDistinct()
         {
             ArrayList oneOfEach = new ArrayList();
-
-            foreach (string crd in cards)
+            Boolean found = false;
+            foreach (Card crd in cards)
             {
-                if (!oneOfEach.Contains(crd))
+                found = false;
+                foreach(Card uniqueCrd in oneOfEach)
+                {
+                    if (crd.name.Equals(uniqueCrd.name))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
                 {
                     oneOfEach.Add(crd);
                 }
@@ -221,15 +294,15 @@ namespace Deck4Me
 
         }
 
-        public string getCardQuery(string crd)
+        public string getCardQuery(Card crd)
         {
-            if (crd.Trim().ToLower().Equals("slam"))
+            if (crd.name.Trim().ToLower().Equals("slam"))
             {
                 return "Slam survives";
             }
             else
             {
-                return crd;
+                return crd.name;
             }
         }
     }

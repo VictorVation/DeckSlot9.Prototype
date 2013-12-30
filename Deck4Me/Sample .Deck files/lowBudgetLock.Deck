@@ -16,6 +16,7 @@
   <card>
     <cardName>Blood Imp</cardName>
     <quantity>2</quantity>
+	<secondaryQty>1</secondaryQty>
   </card>
   <card>
     <cardName>Faerie Dragon</cardName>

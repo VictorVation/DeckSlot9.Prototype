@@ -1,0 +1,19 @@
+2 1 Innervate
+1 2 Claw
+2 0 Wrath
+1 0 Bloodmage THalnos
+1 0 Loot Harder
+2 0 Novice Engineer
+2 0 Wild Pyromancer
+2 0 Earthen Ring Farseer
+2 0 Harvest Golem
+2 0 Swipe
+2 0 Defender of Argus
+2 0 Keeper of the Grove
+1 0 Starfall
+2 0 Druid of the Claw
+1 0 Sylvanas Windrunner
+1 0 The Black Knight
+2 0 Ancient of Lore
+1 0 Baron Geddon
+1 0 Cenarius
