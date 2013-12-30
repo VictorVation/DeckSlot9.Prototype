@@ -1,0 +1,24 @@
+<deck>
+  <deckName>te</deckName>
+  <class>Priest</class>
+  <card>
+    <cardName>Argent Squire</cardName>
+    <quantity>2</quantity>
+    <secondaryQty>1</secondaryQty>
+  </card>
+  <card>
+    <cardName>Holy Smite</cardName>
+    <quantity>2</quantity>
+    <secondaryQty>2</secondaryQty>
+  </card>
+  <card>
+    <cardName>Leper Gnome</cardName>
+    <quantity>2</quantity>
+    <secondaryQty>1</secondaryQty>
+  </card>
+  <card>
+    <cardName>Bloodmage Thalnos</cardName>
+    <quantity>1</quantity>
+    <secondaryQty>0</secondaryQty>
+  </card>
+</deck>

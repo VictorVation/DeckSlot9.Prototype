@@ -239,6 +239,7 @@ namespace Deck4Me
                         sw.WriteLine(doc1);
                     }
                     filePath = fs.Name;
+                    fileName = Path.GetFileName(filePath);
                 }
             }
 

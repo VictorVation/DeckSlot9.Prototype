@@ -1369,6 +1369,8 @@ namespace Deck4Me
             {
                 saveData();
             }
+            deckList.Add(newDeck);
+
             //Reset for more decks
             tempDeck = null;
             statusIcon.Image = statusImages.Images[0];
