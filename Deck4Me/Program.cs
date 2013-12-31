@@ -17,15 +17,9 @@ namespace Deck4Me
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 deckForm1 = new Form1();
+            if (args.Length == 1) deckForm1.loadDeckWithFilePath(args[0]); 
+
             Application.Run(deckForm1);
-
-            //This doesn't currently work
-            //Trying to add the functionality of double clicking a .deck loads the deck into the application
-            foreach (string filePath in args)
-            {
-                deckForm1.loadDeckWithFilePath(filePath);
-            }
-
         }
     }
 }
