@@ -1460,9 +1460,9 @@ namespace Deck4Me
 
             using (FileStream fileStream = new FileStream("Help.html", FileMode.Create, FileAccess.Write))
             {
-                using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
+                using (StreamWriter streamWriter = new StreamWriter(fileStream))
                 {
-                    binaryWriter.Write(System.Text.Encoding.Unicode.GetBytes(Properties.Resources.DeckSlot9_Help));
+                    streamWriter.Write(Properties.Resources.DeckSlot9_Help);
                 }
             }
             System.Diagnostics.Process.Start("Help.html");
